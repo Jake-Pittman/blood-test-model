@@ -1,4 +1,3 @@
-
 FROM python:3.11-slim
 
 # System deps (LightGBM + downloads)
@@ -15,7 +14,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # App code
 COPY recommender.py api.py ./
 COPY entrypoint.sh ./entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
 
-# Start via entrypoint (fetch artifacts, then launch uvicorn)
-CMD ["/app/entrypoint.sh"]
+# Normalize potential Windows/mac CRLFs and ensure executable
+RUN sed -i 's/\r$//' /app/entrypoint.sh && chmod 755 /app/entrypoint.sh
+
+# IMPORTANT: run via shell to avoid any shebang/format issues
+CMD ["sh", "/app/entrypoint.sh"]
