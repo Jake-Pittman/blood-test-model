@@ -20,3 +20,4 @@ RUN sed -i 's/\r$//' /app/entrypoint.sh && chmod 755 /app/entrypoint.sh
 
 # IMPORTANT: run via shell to avoid any shebang/format issues
 CMD ["sh", "/app/entrypoint.sh"]
+RUN sed -i 's/$//' /app/entrypoint.sh && chmod 755 /app/entrypoint.sh
